@@ -204,6 +204,7 @@ class CodeEditor extends Component {
     this.doc = CodeMirror(this.refs.editor, {
       value: this.props.initialContent,
       mode:  "jsx",
+      lineNumbers : 'true',
       cursorHeight : 1 
     });
 

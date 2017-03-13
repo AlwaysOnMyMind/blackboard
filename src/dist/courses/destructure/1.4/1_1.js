@@ -8,3 +8,4 @@ console.log(cloneObj) // {a : 1, b : 2}
 
 
 
+

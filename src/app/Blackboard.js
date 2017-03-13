@@ -49,7 +49,6 @@ class _Blackboard extends Component{
   constructor(props){
     super()
 
-    console.log(props)
 
     this.lastX = null
     this.lastY = null
@@ -265,7 +264,6 @@ class _Blackboard extends Component{
     if(this.draw) {
       const course = this.props.course
       store.dispatch(draw(course.course, course.topic, course.id, x, y, this.state.color, this.state.penSize))
-      console.log(event.clientX, event.clientY)
       this._draw(this.ctx, this.state.color, x * 2, y * 2, this.state.penSize)
     }
     this.setState({
@@ -365,15 +363,12 @@ class _Blackboard extends Component{
         
       }  
     })
-    console.log("@Blckboard _renderWidgets()")
-    console.log(widgets)
 
   }
 
 
   render(){
     const { colors, color, x, y, loading } = this.state
-    // console.log("@Blackboard render")
 
     if(loading) { return null}
     const {course} = this.props

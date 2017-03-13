@@ -153,27 +153,20 @@ export class Dropbox extends Component{
     if(this.state.draging) {
       return false
     }
-    //console.log("request " + this.id + " to release lock")
     if(!this._in_boundary(event)) {
-      //console.log(this.id + " agree release lock")
       return true
     }
     else {
-      //console.log("compare zIndex")
-      //console.log(this.id + " zIndex:" + this.state.style.zIndex )
-      //console.log(dropbox.id + " zIndex:" + dropbox.state.style.zIndex )
+
       if( (this.state.style.zIndex == dropbox.state.style.zIndex) && this.id < dropbox.id) {
 
-        //console.log("brc 1")
         return true
       }
       else if(this.state.style.zIndex < dropbox.state.style.zIndex) {
 
-        //console.log("brc 2")
         return true
       }else {
 
-        //console.log("brc 3")
         return false
       }
 
@@ -288,13 +281,11 @@ export class Dropbox extends Component{
       event.preventDefault()  
     }
     
-    console.log(this.mode)
 
     if (this.X && this.Y) {
 
       const xDiff = this.X - this.startX
       const yDiff = this.Y - this.startY
-      console.log(this.Y, this.startY)
       if(this.mode === 'nw-resize') {
 
         this.setState({
@@ -418,7 +409,6 @@ export class Dropbox extends Component{
 
     }
     this.X = event.pageX
-    console.log('setY:' + this.Y)
     this.Y = event.pageY
 
   }
@@ -435,7 +425,6 @@ export class Dropbox extends Component{
     
     this.startX = this.X = event.pageX
     this.startY = this.Y = event.pageY
-    console.log('set startY:'+this.startY)
     const startDrag = (() => {
       
       
@@ -452,8 +441,7 @@ export class Dropbox extends Component{
       }).bind(this), 10)
     }).bind(this)
 
-    // console.log("max obj id:"  + maxObj.id)
-    
+
     // if(maxObj.id !== this.id) {
       this.setState({
         style : {...this.state.style, zIndex : maxObj.state.style.zIndex + 1}

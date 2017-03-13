@@ -5,3 +5,4 @@ const arr2 = [3,4]
 console.log([...arr1, ...arr2])
 
 
+

@@ -7,3 +7,5 @@ console.log({...obj1, ...obj2})
 
 
 
+
+

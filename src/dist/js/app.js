@@ -99,9 +99,9 @@
 	
 	var _init = __webpack_require__(28);
 	
-	var _socket_recorder = __webpack_require__(46);
+	var _socket_recorder = __webpack_require__(47);
 	
-	__webpack_require__(49);
+	__webpack_require__(50);
 	
 	var _course = __webpack_require__(10);
 	
@@ -696,8 +696,6 @@
 	
 	    var _this = _possibleConstructorReturn(this, (_Blackboard.__proto__ || Object.getPrototypeOf(_Blackboard)).call(this));
 	
-	    console.log(props);
-	
 	    _this.lastX = null;
 	    _this.lastY = null;
 	
@@ -1008,8 +1006,6 @@
 	
 	        }
 	      });
-	      console.log("@Blckboard _renderWidgets()");
-	      console.log(widgets);
 	    }
 	  }, {
 	    key: 'render',
@@ -1022,7 +1018,7 @@
 	          x = _state.x,
 	          y = _state.y,
 	          loading = _state.loading;
-	      // console.log("@Blackboard render")
+	
 	
 	      if (loading) {
 	        return null;
@@ -1197,8 +1193,13 @@
 	
 	var getDimensions = exports.getDimensions = function getDimensions() {
 	
-	  var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+	  /*
+	  const width = window.innerWidth
+	    || document.documentElement.clientWidth
+	    || document.body.clientWidth
+	    */
 	
+	  var width = document.body.offsetWidth;
 	  var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 	  return {
 	    width: width,
@@ -1501,25 +1502,18 @@
 	      if (this.state.draging) {
 	        return false;
 	      }
-	      //console.log("request " + this.id + " to release lock")
 	      if (!this._in_boundary(event)) {
-	        //console.log(this.id + " agree release lock")
 	        return true;
 	      } else {
-	        //console.log("compare zIndex")
-	        //console.log(this.id + " zIndex:" + this.state.style.zIndex )
-	        //console.log(dropbox.id + " zIndex:" + dropbox.state.style.zIndex )
+	
 	        if (this.state.style.zIndex == dropbox.state.style.zIndex && this.id < dropbox.id) {
 	
-	          //console.log("brc 1")
 	          return true;
 	        } else if (this.state.style.zIndex < dropbox.state.style.zIndex) {
 	
-	          //console.log("brc 2")
 	          return true;
 	        } else {
 	
-	          //console.log("brc 3")
 	          return false;
 	        }
 	      }
@@ -1632,13 +1626,10 @@
 	        event.preventDefault();
 	      }
 	
-	      console.log(this.mode);
-	
 	      if (this.X && this.Y) {
 	
 	        var xDiff = this.X - this.startX;
 	        var yDiff = this.Y - this.startY;
-	        console.log(this.Y, this.startY);
 	        if (this.mode === 'nw-resize') {
 	
 	          this.setState({
@@ -1737,7 +1728,6 @@
 	        }
 	      }
 	      this.X = event.pageX;
-	      console.log('setY:' + this.Y);
 	      this.Y = event.pageY;
 	    }
 	  }, {
@@ -1761,7 +1751,6 @@
 	
 	      this.startX = this.X = event.pageX;
 	      this.startY = this.Y = event.pageY;
-	      console.log('set startY:' + this.startY);
 	      var startDrag = function () {
 	
 	        _this3.startState = _extends({}, _this3.state.style);
@@ -1776,8 +1765,6 @@
 	          }
 	        }.bind(_this3), 10);
 	      }.bind(this);
-	
-	      // console.log("max obj id:"  + maxObj.id)
 	
 	      // if(maxObj.id !== this.id) {
 	      this.setState({
@@ -2481,6 +2468,7 @@
 	      this.doc = CodeMirror(this.refs.editor, {
 	        value: this.props.initialContent,
 	        mode: "jsx",
+	        lineNumbers: 'true',
 	        cursorHeight: 1
 	      });
 	
@@ -3381,13 +3369,13 @@
 	
 	var _course = __webpack_require__(45);
 	
-	var _layout = __webpack_require__(55);
+	var _layout = __webpack_require__(46);
 	
-	var _socket_recorder = __webpack_require__(46);
+	var _socket_recorder = __webpack_require__(47);
 	
-	var _browser_hash = __webpack_require__(47);
+	var _browser_hash = __webpack_require__(48);
 	
-	var _reduxThunk = __webpack_require__(48);
+	var _reduxThunk = __webpack_require__(49);
 	
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 	
@@ -4689,6 +4677,35 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.layout = undefined;
+	
+	var _dimensions = __webpack_require__(13);
+	
+	var initial = {
+	  width: (0, _dimensions.getDimensions)().width,
+	  height: (0, _dimensions.getDimensions)().height
+	};
+	var layout = exports.layout = function layout() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initial;
+	  var action = arguments[1];
+	
+	
+	  switch (action.type) {
+	    case "WINDOW_RESIZE":
+	      return { width: action.width, height: action.height };
+	  }
+	  return state;
+	};
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	exports.socket_recorder = undefined;
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /***********************************************
@@ -4774,7 +4791,7 @@
 	};
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4824,22 +4841,22 @@
 	    */
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = (__webpack_require__(2))(225);
 
 /***/ },
-/* 49 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(50);
+	var content = __webpack_require__(51);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(53)(content, {});
+	var update = __webpack_require__(54)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -4856,21 +4873,21 @@
 	}
 
 /***/ },
-/* 50 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(51)();
+	exports = module.exports = __webpack_require__(52)();
 	// imports
 	
 	
 	// module
-	exports.push([module.id, "* {\n  box-sizing: border-box;\n  padding: 0;\n  margin: 0;\n}\n#app {\n  cursor: url(" + __webpack_require__(52) + "), auto;\n  width: 100%;\n}\n.menu {\n  position: absolute;\n  z-index: 1000;\n  background-color: #fff;\n  top: 0;\n  left: -290px;\n  width: 300px;\n  border-right: 10px solid #eee;\n  padding-right: 20px;\n  transition: left 0.3s ease;\n}\n.menu:hover {\n  border-right: 1px solid #eee;\n  left: 0;\n}\n.menu-item {\n  color: #333;\n  font-family: 'Microsoft YaHei';\n}\n.menu-item:hover {\n  font-weight: bold;\n}\n.canvas {\n  position: relative;\n  z-index: 9;\n  width: 100%;\n  height: 100%;\n  -webkit-touch-callout: none; /* iOS Safari */\n  -webkit-user-select: none; /* Chrome/Safari/Opera */\n  -khtml-user-select: none; /* Konqueror */\n  -moz-user-select: none; /* Firefox */\n  -ms-user-select: none; /* Internet Explorer/Edge */\n  user-select: none; /* Non-prefixed version, currently\n                                  not supported by any browser */\n}\n.color {\n  position: fixed;\n  right: 5px;\n  bottom: 0;\n  z-index: 999;\n}\n.color div {\n  float: left;\n  width: 50px;\n  height: 50px;\n  border: 2px solid #eee;\n}\n.cleaner {\n  position: absolute;\n  top: 10px;\n  right: 10px;\n  padding: 10px;\n  font-size: 20px;\n  color: #666;\n  border: 1px solid #eee;\n  z-index: 999;\n}\n.cleaner:hover {\n  color: #333;\n}\n.eraser {\n  position: absolute;\n  width: 50px;\n  height: 50px;\n  border-radius: 50%;\n  border: 1px solid #000;\n}\n.pages {\n  position: absolute;\n  top: 20px;\n  left: 50px;\n  z-index: 999;\n}\n.pages .page {\n  margin-left: 5px;\n  color: #000;\n  width: 30px;\n  height: 30px;\n  border-radius: 50%;\n  background-color: #efefef;\n  line-height: 30px;\n  text-align: center;\n  color: #fff;\n  float: left;\n}\n.title {\n  position: absolute;\n  left: calc(50% - 250px);\n  font-size: 28px;\n  opacity: 0.5;\n  top: 20px;\n  width: 500px;\n  text-align: center;\n  padding-bottom: 5px;\n  border-bottom: 1px solid #a4ee97;\n}\n.fiddle .frame {\n  width: 30%;\n  float: left;\n  height: 100%;\n}\n.fiddle .frame iframe {\n  width: 100%;\n}\n.fiddle .editor {\n  border-right: 1px solid #eee;\n  font-size: 20px;\n  width: 70%;\n  float: left;\n  height: 100%;\n  overflow: hidden;\n}\n.fiddle .options {\n  border-left: 1px solid #eee;\n  border-right: 1px solid #eee;\n  display: block;\n  z-index: 12;\n  background-color: #f2f3f4;\n  overflow: hidden;\n  height: 30px;\n}\n.fiddle .options .option {\n  float: left;\n  margin-right: 10px;\n  padding: 3px 10px;\n  line-height: 30px;\n}\n.fiddle .options .option:hover {\n  color: #0f0;\n}\n.dropbox {\n  position: absolute;\n  box-sizing: border-box;\n  overflow: hidden;\n  top: 0;\n  left: 0;\n  z-index: 10;\n  background-color: #fff;\n  resize: true;\n  border: 1px solid #f2f3f4;\n}\n.dropbox:hover {\n  border: 1px solid #eee;\n}\n.dropbox:hover .delete {\n  display: block;\n}\n.dropbox .delete {\n  color: #b5d592;\n  position: absolute;\n  top: 10px;\n  right: 10px;\n  display: none;\n  z-index: 999;\n}\n.markdown {\n  width: 100%;\n  min-width: 300px;\n  position: relative;\n}\n.markdown:hover .btn {\n  display: block;\n}\n.markdown .btn {\n  position: absolute;\n  display: none;\n  width: 20px;\n  height: 20px;\n  bottom: 10px;\n  right: 10px;\n  color: #b5d592;\n  text-align: center;\n  line-height: 20px;\n}\n.markdown .markdown-editor {\n  width: 50%;\n  float: left;\n}\n.markdown .markdown-editor textarea {\n  width: 100%;\n  border: none;\n  outline: none;\n  height: 100%;\n}\n.markdown .preview {\n  width: 50%;\n  float: left;\n  word-wrap: break-word;\n}\n.markdown .preview p {\n  font-size: 1rem;\n  color: #666;\n  margin-bottom: 10px;\n}\n.markdown .preview h1,\n.markdown .preview h2,\n.markdown .preview h3,\n.markdown .preview h4 {\n  margin-bottom: 10px;\n  font-family: \"Microsoft YaHei\";\n  color: #333;\n}\n.markdown .preview h1 {\n  font-size: 1.8rem;\n}\n.markdown .preview h2 {\n  font-szie: 1.6rem;\n}\n.markdown .preview h3 {\n  font-size: 1.4rem;\n}\n.markdown .preview h4 {\n  font-size: 1.1rem;\n}\n.markdown .preview ul,\n.markdown .preview ol {\n  padding-left: 3rem;\n}\n.markdown .preview pre {\n  margin: 10px;\n  padding: 10px;\n  background-color: #f2f3f4;\n}\n.tools {\n  position: fixed;\n  bottom: 0;\n  z-index: 999;\n}\n.tools .tools-btn {\n  width: 50px;\n  height: 50px;\n  text-align: center;\n  line-height: 50px;\n  color: #b5d592;\n  float: left;\n}\n.tools .tools-btn:hover i {\n  color: #0f0;\n}\n.tools .tools-btn i {\n  font-size: 48px;\n}\n.clearfix:after {\n  clear: both;\n}\n.drag-area {\n  height: 4px;\n  background-color: #eee;\n}\n.CodeMirror {\n  height: 100%;\n}\n", ""]);
+	exports.push([module.id, "* {\n  box-sizing: border-box;\n  padding: 0;\n  margin: 0;\n}\n#app {\n  cursor: url(" + __webpack_require__(53) + "), auto;\n  width: 100%;\n}\n.menu {\n  position: absolute;\n  z-index: 1000;\n  background-color: #fff;\n  top: 0;\n  left: -290px;\n  width: 300px;\n  border-right: 10px solid #eee;\n  padding-right: 20px;\n  transition: left 0.3s ease;\n}\n.menu:hover {\n  border-right: 1px solid #eee;\n  left: 0;\n}\n.menu-item {\n  color: #333;\n  font-family: 'Microsoft YaHei';\n}\n.menu-item:hover {\n  font-weight: bold;\n}\n.canvas {\n  position: relative;\n  z-index: 9;\n  width: 100%;\n  height: 100%;\n  -webkit-touch-callout: none; /* iOS Safari */\n  -webkit-user-select: none; /* Chrome/Safari/Opera */\n  -khtml-user-select: none; /* Konqueror */\n  -moz-user-select: none; /* Firefox */\n  -ms-user-select: none; /* Internet Explorer/Edge */\n  user-select: none; /* Non-prefixed version, currently\n                                  not supported by any browser */\n}\n.color {\n  position: fixed;\n  right: 5px;\n  bottom: 0;\n  z-index: 999;\n}\n.color div {\n  float: left;\n  width: 50px;\n  height: 50px;\n  border: 2px solid #eee;\n}\n.cleaner {\n  position: absolute;\n  top: 10px;\n  right: 10px;\n  padding: 10px;\n  font-size: 20px;\n  color: #666;\n  border: 1px solid #eee;\n  z-index: 999;\n}\n.cleaner:hover {\n  color: #333;\n}\n.eraser {\n  position: absolute;\n  width: 50px;\n  height: 50px;\n  border-radius: 50%;\n  border: 1px solid #000;\n}\n.pages {\n  position: absolute;\n  top: 20px;\n  left: 50px;\n  z-index: 999;\n}\n.pages .page {\n  margin-left: 5px;\n  color: #000;\n  width: 30px;\n  height: 30px;\n  border-radius: 50%;\n  background-color: #efefef;\n  line-height: 30px;\n  text-align: center;\n  color: #fff;\n  float: left;\n}\n.title {\n  position: absolute;\n  left: calc(50% - 250px);\n  font-size: 28px;\n  opacity: 0.5;\n  top: 20px;\n  width: 500px;\n  text-align: center;\n  padding-bottom: 5px;\n  border-bottom: 1px solid #a4ee97;\n}\n.fiddle .frame {\n  width: 30%;\n  float: left;\n  height: 100%;\n}\n.fiddle .frame iframe {\n  width: 100%;\n}\n.fiddle .editor {\n  border-right: 1px solid #eee;\n  font-size: 20px;\n  width: 70%;\n  float: left;\n  height: 100%;\n  overflow: hidden;\n}\n.fiddle .options {\n  border-left: 1px solid #eee;\n  border-right: 1px solid #eee;\n  display: block;\n  z-index: 12;\n  background-color: #f2f3f4;\n  overflow: hidden;\n  height: 30px;\n}\n.fiddle .options .option {\n  float: left;\n  margin-right: 10px;\n  padding: 3px 10px;\n  line-height: 30px;\n}\n.fiddle .options .option:hover {\n  color: #0f0;\n}\n.dropbox {\n  position: absolute;\n  box-sizing: border-box;\n  overflow: hidden;\n  top: 0;\n  left: 0;\n  z-index: 10;\n  background-color: #fff;\n  resize: true;\n  border: 1px solid #f2f3f4;\n}\n.dropbox:hover {\n  border: 1px solid #eee;\n}\n.dropbox:hover .delete {\n  display: block;\n}\n.dropbox .delete {\n  color: #b5d592;\n  position: absolute;\n  top: 10px;\n  right: 10px;\n  display: none;\n  z-index: 999;\n}\n.markdown {\n  width: 100%;\n  min-width: 300px;\n  position: relative;\n}\n.markdown:hover .btn {\n  display: block;\n}\n.markdown .btn {\n  position: absolute;\n  display: none;\n  width: 20px;\n  height: 20px;\n  bottom: 10px;\n  right: 10px;\n  color: #b5d592;\n  text-align: center;\n  line-height: 20px;\n}\n.markdown .markdown-editor {\n  width: 50%;\n  float: left;\n}\n.markdown .markdown-editor textarea {\n  width: 100%;\n  border: none;\n  outline: none;\n  height: 100%;\n}\n.markdown .preview {\n  width: 50%;\n  float: left;\n  word-wrap: break-word;\n}\n.markdown .preview p {\n  font-size: 1rem;\n  color: #666;\n  margin-bottom: 10px;\n}\n.markdown .preview h1,\n.markdown .preview h2,\n.markdown .preview h3,\n.markdown .preview h4 {\n  margin-bottom: 10px;\n  font-family: \"Microsoft YaHei\";\n  color: #333;\n}\n.markdown .preview h1 {\n  font-size: 1.8rem;\n}\n.markdown .preview h2 {\n  font-szie: 1.6rem;\n}\n.markdown .preview h3 {\n  font-size: 1.4rem;\n}\n.markdown .preview h4 {\n  font-size: 1.1rem;\n}\n.markdown .preview ul,\n.markdown .preview ol {\n  padding-left: 3rem;\n}\n.markdown .preview pre {\n  margin: 10px;\n  padding: 10px;\n  background-color: #f2f3f4;\n}\n.tools {\n  position: fixed;\n  bottom: 0;\n  z-index: 999;\n}\n.tools .tools-btn {\n  width: 50px;\n  height: 50px;\n  text-align: center;\n  line-height: 50px;\n  color: #b5d592;\n  float: left;\n}\n.tools .tools-btn:hover i {\n  color: #0f0;\n}\n.tools .tools-btn i {\n  font-size: 48px;\n}\n.clearfix:after {\n  clear: both;\n}\n.drag-area {\n  height: 4px;\n  background-color: #eee;\n}\n.CodeMirror {\n  height: 100%;\n}\n", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports) {
 
 	/*
@@ -4926,13 +4943,13 @@
 
 
 /***/ },
-/* 52 */
+/* 53 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,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"
 
 /***/ },
-/* 53 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -5182,36 +5199,6 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
-
-/***/ },
-/* 54 */,
-/* 55 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.layout = undefined;
-	
-	var _dimensions = __webpack_require__(13);
-	
-	var initial = {
-	  width: (0, _dimensions.getDimensions)().width,
-	  height: (0, _dimensions.getDimensions)().height
-	};
-	var layout = exports.layout = function layout() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initial;
-	  var action = arguments[1];
-	
-	
-	  switch (action.type) {
-	    case "WINDOW_RESIZE":
-	      return { width: action.width, height: action.height };
-	  }
-	  return state;
-	};
 
 /***/ }
 /******/ ]);
